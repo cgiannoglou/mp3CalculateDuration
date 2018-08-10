@@ -1,4 +1,5 @@
 # mp3CalculateDuration
+/*java
 public static void main(String[] args) {
     DurationCalculator1 dc1 = new DurationCalculator1();
     dc1.setBitRates();
@@ -7,3 +8,4 @@ public static void main(String[] args) {
     double mp3Duration = dc1.mp3Duration(pathToFile);
     System.out.println("The duration of the mp3 file is: "+mp3Duration);
   }
+*/

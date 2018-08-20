@@ -5,7 +5,7 @@ This is a Java program  which is about calculating mp3 files duration in millise
 ## Usage
 
 public static void main(String[] args) {  
-	DurationCalculator1 dc1 = new DurationCalculator1();  
+	DurationCalculator dc1 = new DurationCalculator();  
 	dc1.setBitRates();  
 	dc1.setSampleRates();  
 	dc1.setSamples();  

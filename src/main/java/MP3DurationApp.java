@@ -14,7 +14,7 @@ public class MP3DurationApp {
     dc1.setBitRates();
     dc1.setSampleRates();
     dc1.setSamples();
-    double mp3Duration = dc1.mp3Duration("C:\\Users\\cgiannoglou\\Downloads\\Iron Maiden - Fear of the Dark, live Tele2 Arena, Stockholm Sweden 2018-06-01.mp3");
+    double mp3Duration = dc1.mp3Duration("C:\\Users\\cgiannoglou\\Documents\\Source\\mp3-duration\\tests\\demo - vbr.mp3");
     System.out.println("The duration of the mp3 file is: "+mp3Duration);
   }
 }

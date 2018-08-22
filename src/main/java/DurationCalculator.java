@@ -2,7 +2,7 @@
  * @author Christos Giannoglou
  * 
  * 2018 (c) ATC
- *  
+ * 
  */
 package main.java;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DurationCalculator {
-  
+
   private String[] versions = {"2.5", "x", "2", "1"};
   private String[] layers = {"x", "3", "2", "1"};
 
@@ -25,7 +25,7 @@ public class DurationCalculator {
   private Map<String, int[]> sampleRates = new HashMap<String, int[]>();
   private Map<String, int[]> samples = new HashMap<String, int[]>();
 
-  
+
   public void setBitRates() {
     bitRates.put("V1Lx", new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
     bitRates.put("V1L1",
@@ -54,8 +54,8 @@ public class DurationCalculator {
 
   public void setSamples() {
     samples.put("x", new int[] {0, 0, 0, 0});
-    samples.put("1", new int[] {0, 348, 1152, 1152});
-    samples.put("2", new int[] {0, 348, 1152, 576});
+    samples.put("1", new int[] {0, 384, 1152, 1152});
+    samples.put("2", new int[] {0, 384, 1152, 576});
   }
 
   private int skipID3(int[] buffer) {
@@ -65,7 +65,7 @@ public class DurationCalculator {
     if (buffer[0] == 0x49 && buffer[1] == 0x44 && buffer[2] == 0x33) { // 'ID3'
       id3v2_flags = buffer[5];
     }
-    if ((id3v2_flags & 0x10) != 0) {
+    if ((id3v2_flags & 0x10) == 0) {
       footer_size = 10;
     } else {
       footer_size = 0;
@@ -83,12 +83,12 @@ public class DurationCalculator {
     }
     return 0;
   }
-  
+
   private double roundDuration(double duration) {
     duration = Math.round(duration * 1000);
     return (duration / 1000);
   }
-  
+
   private float[] parseFrameHeader(int[] header) {
     int b1 = header[1];
     int b2 = header[2];
@@ -110,7 +110,7 @@ public class DurationCalculator {
     int layer_bits = (b1 & 0x06) >> 1;
     String layer = layers[layer_bits];
 
-    String bit_rate_key = "V"+simple_version+"L"+layer;
+    String bit_rate_key = "V" + simple_version + "L" + layer;
     int bit_rate_index = (b2 & 0xf0) >> 4;
 
     if (bitRates.containsKey(bit_rate_key)) {
@@ -120,11 +120,7 @@ public class DurationCalculator {
     }
 
     sample_rate_idx = (b2 & 0x0c) >> 2;
-//    if(sample_rate_idx >2) {
-//      sample_rate_idx = 2;
-//    }
 
-    
     if (sampleRates.containsKey(version)) {
       sample_rate = sampleRates.get(version)[sample_rate_idx];
     } else {
@@ -137,20 +133,19 @@ public class DurationCalculator {
 
     float[] results = {bit_rate, sample_rate,
         frameSize(sample, Integer.parseInt(layer), bit_rate, sample_rate, padding_bit), sample};
-
     return results;
   }
 
   public float frameSize(int samples, int layer, int bit_rate, int sample_rate, int paddingBit) {
     if (Integer.toString(layer) == "1") {
-//      if(sample_rate == 0) {
-//        return 0;
-//      }
+      // if(sample_rate == 0) {
+      // return 0;
+      // }
       return (((samples * bit_rate * 125 / sample_rate) + paddingBit * 4));
     } else { // layer 2, 3
-//      if(sample_rate == 0) {
-//        return 0;
-//      }
+      // if(sample_rate == 0) {
+      // return 0;
+      // }
       return (((samples * bit_rate * 125) / sample_rate) + paddingBit);
     }
   }
@@ -188,34 +183,30 @@ public class DurationCalculator {
       }
 
       int offset = skipID3(buffer);
-      System.out.println(offset);
-      while(true) {
+      System.out.println("offset: " + offset);
+      while (true) {
         int[] buffer1 = new int[10];
-        
-        if(audioBytes1.length-offset >= 10) {
-          for(int i = 0; i < 10; i++) {
-            buffer1[i] = audioBytes1[offset+i];
+
+        if (audioBytes1.length - offset >= 10) {
+          for (int i = 0; i < 10; i++) {
+            buffer1[i] = audioBytes1[offset + i];
           }
-        }
-        else {
+        } else {
           return roundDuration(duration);
         }
-        if(buffer1[0] == 0xff && (buffer1[1] & 0xe0) == 0xe0) {
+        if (buffer1[0] == 0xff && (buffer1[1] & 0xe0) == 0xe0) {
           info = parseFrameHeader(buffer1);
-          if(info[2] != 0 && info[3] != 0) {
+          if (info[2] != 0 && info[3] != 0) {
             offset += info[2];
-            duration += ( info[3] / info[1] );
-            //System.out.println(duration);
+            duration += (info[3] / info[1]);
+            // System.out.println(duration);
+          } else {
+            offset += 1; // Corrupt file?
           }
-          else {
-            offset+=1; //Corrupt file?
-          }
-        }
-        else if(buffer1[0] == 0x54 && buffer1[1] == 0x41 && buffer1[2] == 0x47) { //#TAG'
-          offset += 128; //Skip over id3v1 tag size
-        }
-        else {
-          offset+=1; //Corrupt file?
+        } else if (buffer1[0] == 0x54 && buffer1[1] == 0x41 && buffer1[2] == 0x47) { // #TAG'
+          offset += 128; // Skip over id3v1 tag size
+        } else {
+          offset += 1; // Corrupt file?
         }
       }
     } catch (FileNotFoundException e) {

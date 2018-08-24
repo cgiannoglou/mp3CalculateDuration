@@ -1,9 +1,9 @@
-# mp3CalculateDuration
+# mp3DurationCalculator
 
 This is a Java program  which is about calculating mp3 files duration in milliseconds
 
 ## Usage
-
+```sh
 public static void main(String[] args) {  
 	DurationCalculator dc = new DurationCalculator();  
 	dc.setBitRates();  
@@ -12,3 +12,4 @@ public static void main(String[] args) {
 	double mp3Duration = dc.mp3Duration(pathToFile);  
 	System.out.println("The duration of the mp3 file is: "+mp3Duration);  
 }
+```

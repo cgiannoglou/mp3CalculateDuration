@@ -14,7 +14,7 @@ public class MP3DurationApp {
     dc1.setBitRates();
     dc1.setSampleRates();
     dc1.setSamples();
-    double mp3Duration = dc1.mp3Duration("C:\\Users\\cgiannoglou\\Documents\\Source\\mp3-duration\\tests\\demo - vbr.mp3");
+    double mp3Duration = dc1.mp3Duration("C:\\Users\\cgiannoglou\\Downloads\\9 Math Riddles That'll Stump Even Your Smartest Friends.mp3");
     System.out.println("The duration of the mp3 file is: "+mp3Duration);
   }
 }

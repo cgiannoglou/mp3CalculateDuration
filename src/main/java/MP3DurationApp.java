@@ -17,7 +17,6 @@ public class MP3DurationApp {
     dc1.setSampleRates();
     dc1.setSamples();
     double mp3Duration = dc1.mp3Duration("C:\\Users\\cgiannoglou\\Downloads\\10 Math Games That'll Boost Your Brain Power By 80%.mp3");
-    //System.out.println("The duration of the mp3 file is: "+mp3Duration);
     Logger logger = LoggerFactory.getLogger(MP3DurationApp.class);
     logger.info("The duration of the mp3 file is: "+mp3Duration);
   }

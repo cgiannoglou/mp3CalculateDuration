@@ -1,7 +1,7 @@
 /*
  * @author Christos Giannoglou
  * 
- * 2018 (c) ATC
+ * 2018
  * 
  */
 package main.java;
@@ -205,13 +205,11 @@ public class DurationCalculator {
         } else {
           offset += 1; // Corrupt file?
         }
-        //System.out.println(offset);
       }
     } catch (FileNotFoundException e) {
 
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return roundDuration(duration);

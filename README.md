@@ -11,6 +11,6 @@ public static void main(String[] args) {
 	dc.setSamples();  
 	double mp3Duration = dc.mp3Duration(pathToFile);  
 	Logger logger = LoggerFactory.getLogger(MP3DurationApp.class);
-    logger.info("The duration of the mp3 file is: "+mp3Duration); 
+		logger.info("The duration of the mp3 file is: "+mp3Duration); 
 }
 ```

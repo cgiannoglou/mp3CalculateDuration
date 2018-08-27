@@ -6,6 +6,9 @@
  */
 package main.java;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -207,10 +210,11 @@ public class DurationCalculator {
         }
       }
     } catch (FileNotFoundException e) {
-
-      e.printStackTrace();
+      Logger logger = LoggerFactory.getLogger(DurationCalculator.class);
+      logger.error("ERROR", e);
     } catch (IOException e) {
-      e.printStackTrace();
+      Logger logger = LoggerFactory.getLogger(DurationCalculator.class);
+      logger.error("ERROR", e);
     }
     return roundDuration(duration);
   }
